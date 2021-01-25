@@ -11,7 +11,7 @@ import java.util.*
  * Grenade is the opponent.
  */
 
-class Asteroid(var image: Bitmap) {
+class Asteroid2(var image: Bitmap) {
     var x: Int = 0
     var y: Int = 0
     var w: Int = 0
@@ -33,7 +33,7 @@ class Asteroid(var image: Bitmap) {
         x= random.nextInt(screenWidth-w)
         y = 300 // screenHeight/2
 
-        yVelocity = random.nextInt(20) +20
+        yVelocity = random.nextInt(10) +10
 
     }
 

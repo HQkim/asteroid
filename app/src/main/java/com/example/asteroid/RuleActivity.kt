@@ -16,7 +16,7 @@ class RuleActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.ruleBtnStart.setOnClickListener {
-            Toast.makeText(this, "RuleActivity->GameActivity", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "RuleActivity->GameActivity", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
             finish()

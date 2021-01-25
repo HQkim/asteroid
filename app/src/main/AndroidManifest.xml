@@ -26,6 +26,9 @@
 
         <activity android:name=".GameActivity">
         </activity>
+
+        <activity android:name=".ScoreActivity">
+        </activity>
     </application>
 
 </manifest>

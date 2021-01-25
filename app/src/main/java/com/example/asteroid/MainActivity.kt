@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainBtnRule.setOnClickListener {
             val intent = Intent(this, RuleActivity::class.java)
             startActivity(intent)
-            Toast.makeText(this, "MainActivity->RuleActivity",Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "MainActivity->RuleActivity",Toast.LENGTH_SHORT).show()
             finish()
         }
     }

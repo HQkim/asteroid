@@ -1,26 +1,34 @@
 package com.example.asteroid
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceView
 import android.view.SurfaceHolder
+import android.widget.Toast
 
 /**
  * GameView is our playground.
  */
 
-class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context, attributes), SurfaceHolder.Callback {
+class GameView(context: Context) : SurfaceView(context), SurfaceHolder.Callback {
     private val thread: GameThread
     private var asteroids: ArrayList<Asteroid> = ArrayList()
-    private var player: Player? = null
+    private var asteroids2: ArrayList<Asteroid2> = ArrayList()
 
     private var touched: Boolean = false
     private var touched_x: Int = 0
     private var touched_y: Int = 0
+
+    private var score: Int = 0
+    private var score2: Int = 0
 
     init {
 
@@ -33,11 +41,14 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
 
     override fun surfaceCreated(surfaceHolder: SurfaceHolder) {
         // game objects
-        for (i in 1..10){
+        for (i in 1..1) {
             asteroids.add(Asteroid(BitmapFactory.decodeResource(resources, R.drawable.asteroid)))
         }
 
-        player = Player(BitmapFactory.decodeResource(resources, R.drawable.grenade))
+
+        for (i in 1..1) {
+            asteroids2.add(Asteroid2(BitmapFactory.decodeResource(resources, R.drawable.asteroid2)))
+        }
 
         // start the game thread
         thread.setRunning(true)
@@ -45,7 +56,7 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     }
 
     override fun surfaceChanged(surfaceHolder: SurfaceHolder, i: Int, i1: Int, i2: Int) {
-
+        Toast.makeText(context, "야야야", Toast.LENGTH_SHORT).show()
     }
 
     override fun surfaceDestroyed(surfaceHolder: SurfaceHolder) {
@@ -67,22 +78,69 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
      */
     fun update() {
 
-        for (grenade in asteroids){
-            grenade!!.update()
+        for (asteroid in asteroids) {
+            asteroid!!.update()
         }
 
-        if(touched) {
-            player!!.updateTouch(touched_x, touched_y)
+        for (asteroid in asteroids2) {
+            asteroid!!.update()
         }
 
-        for (grenade in asteroids) {
-            val grenadeRect: Rect = Rect(grenade!!.x, grenade!!.y, grenade!!.x+grenade!!.w, grenade!!.y+grenade!!.h)
-            val playerRect: Rect = Rect(player!!.x, player!!.y, player!!.x+player!!.w, player!!.y+player!!.h)
-            if(grenadeRect.intersect(playerRect)){
-                System.out.println("Collided.")
-            } else {
-
+        if (touched) {
+            for (asteroid in asteroids) {
+                val term1 = (touched_x >= asteroid.x && touched_x <= asteroid.x + asteroid.w)
+                val term2 = (touched_y >= asteroid.y && touched_y <= asteroid.y + asteroid.h)
+                if (term1 && term2) {
+                    val index = asteroids.indexOf(asteroid)
+                    asteroids.removeAt(index)
+                    asteroids.add(Asteroid(BitmapFactory.decodeResource(resources, R.drawable.asteroid)))
+                    score++
+                }
             }
+
+            for (asteroid in asteroids2) {
+                val term1 = (touched_x >= asteroid.x && touched_x <= asteroid.x + asteroid.w)
+                val term2 = (touched_y >= asteroid.y && touched_y <= asteroid.y + asteroid.h)
+                if (term1 && term2) {
+                    val index = asteroids2.indexOf(asteroid)
+                    asteroids2.removeAt(index)
+                    asteroids2.add(Asteroid2(BitmapFactory.decodeResource(resources, R.drawable.asteroid2)))
+                    score2++
+                }
+            }
+        }
+
+
+        for (asteroid in asteroids) {
+            val y_asteroid = asteroid.y
+            if (y_asteroid > asteroid.screenHeight - asteroid.h) {
+//                Toast.makeText(context, "Asteroids hit the earth!",Toast.LENGTH_SHORT).show()
+//                Log.d("TagGameView","Asteroids hit the earth!")
+                // Change Activity from GameActivity to ScoreActivity
+
+                val intent = Intent(context, ScoreActivity::class.java)
+                intent.putExtra("score", score.toString())
+                intent.putExtra("score2", score2.toString())
+                context.startActivity(intent)
+                thread.setRunning(false)
+            }
+
+        }
+
+        for (asteroid in asteroids2) {
+            val y_asteroid = asteroid.y
+            if (y_asteroid > asteroid.screenHeight - asteroid.h) {
+//                Toast.makeText(context, "Asteroids hit the earth!",Toast.LENGTH_SHORT).show()
+//                Log.d("TagGameView","Asteroids hit the earth!")
+                // Change Activity from GameActivity to ScoreActivity
+
+                val intent = Intent(context, ScoreActivity::class.java)
+                intent.putExtra("score", score.toString())
+                intent.putExtra("score2", score2.toString())
+                context.startActivity(intent)
+                thread.setRunning(false)
+            }
+
         }
     }
 
@@ -92,11 +150,14 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
-        for (grenade in asteroids){
-            grenade!!.draw(canvas)
+        for (asteroid in asteroids) {
+            asteroid!!.draw(canvas)
         }
 
-        player!!.draw(canvas)
+        for (asteroid in asteroids2) {
+            asteroid!!.draw(canvas)
+        }
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -116,5 +177,15 @@ class GameView(context: Context, attributes: AttributeSet) : SurfaceView(context
         }
         return true
     }
+
+
+    fun pause() {
+        thread.setRunning(false)
+    }
+
+    fun resume() {
+        thread.setRunning(true)
+    }
+
 
 }
