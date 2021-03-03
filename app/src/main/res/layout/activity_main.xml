@@ -7,15 +7,52 @@
     tools:context=".MainActivity"
     android:background="@drawable/background">
 
-    <Button
-        android:id="@+id/main_btn_rule"
+
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="게임방법"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_centerInParent="true"
-        android:backgroundTint="#292F58"/>
+        android:layout_centerInParent="true">
+
+        <Button
+            android:id="@+id/main_btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게임시작"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="#292F58"/>
+
+        <Button
+            android:id="@+id/main_btn_rule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게임방법"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_below="@id/main_btn_start"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#292F58"/>
+
+        <Button
+            android:id="@+id/main_btn_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게임종료"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_below="@id/main_btn_rule"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#292F58"/>
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

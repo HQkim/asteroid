@@ -5,12 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import java.util.*
 
-/**
- * Grenade Class.
- * It could be considered as System. System is playing against you in the game.
- * Grenade is the opponent.
- */
-
 class Asteroid(var image: Bitmap) {
     var x: Int = 0
     var y: Int = 0
@@ -33,7 +27,7 @@ class Asteroid(var image: Bitmap) {
         x= random.nextInt(screenWidth-w)
         y = 300 // screenHeight/2
 
-        yVelocity = random.nextInt(20) +20
+        yVelocity = random.nextInt(10) +15
 
     }
 

@@ -15,9 +15,18 @@ class RuleActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        overridePendingTransition(0,0)
+
         binding.ruleBtnStart.setOnClickListener {
 //            Toast.makeText(this, "RuleActivity->GameActivity", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.ruleBtnBack.setOnClickListener {
+//            Toast.makeText(this, "RuleActivity->GameActivity", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
